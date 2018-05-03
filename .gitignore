@@ -18,3 +18,7 @@
 
 .byebug_history
 /vendor/bundle
+
+config/settings.local.yml
+config/settings/*.local.yml
+config/environments/*.local.yml
