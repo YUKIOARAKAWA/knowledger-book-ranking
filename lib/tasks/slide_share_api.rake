@@ -22,10 +22,20 @@ namespace :slide_share_api do
     num_download_list = doc.xpath("//NumDownloads")
     num_view_list = doc.xpath("//NumViews")
     num_favorite_list = doc.xpath("//NumFavorites")
+    slide_created_at = doc.xpath("//Created")
 
     # DBに保存
     get_count.times do |i|
-      title_list[i].text
+      slide = Slide.new(
+        title: title_list[i].text,
+        url: url_list[i].text,
+        num_download: num_download_list[i].text,
+        num_view: num_view_list[i].text,
+        num_favorite: num_favorite_list[i].text,
+        slide_created_at: slide_created_at[i].text,
+        q: "Ruby"
+      )
+      slide.save!
     end
 
 
