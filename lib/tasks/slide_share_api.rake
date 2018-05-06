@@ -38,6 +38,5 @@ namespace :slide_share_api do
       slide.save!
     end
 
-
   end
 end
