@@ -9,7 +9,7 @@ class SlideShareApiClient
     @url = 'https://www.slideshare.net/'
   end
 
-  def search
+  def search(page: 1)
     conn = Faraday::Connection.new(:url => url) do |builder|
         ## URLをエンコードする
         builder.use Faraday::Request::UrlEncoded
@@ -24,6 +24,7 @@ class SlideShareApiClient
       req.params[:lang] = :ja
       req.params[:q] = :Ruby
       req.params[:detailed] = 1
+      req.params[:page] = page #件数制限があって一度に全件取得できない
     end
 
     body = res.body
