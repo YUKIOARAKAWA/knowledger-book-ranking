@@ -56,7 +56,13 @@ def search_slide_and_create!(page, q)
       q: query
     )
     # urlでユニークか確認したほうが良さそう
-    slide.save!
+    begin
+      slide.save!
+    rescue => e
+      puts e
+      puts "エラー#{page}ページの#{i}番目"
+    end
+
   end
 
   return get_c, total_c
