@@ -5,6 +5,8 @@ namespace :slide_share_api do
     # 1回目
     page = 1
     get_c, total_c = search_slide_and_create!(page, args[:q])
+    puts "取得件数#{get_c}件"
+    puts "トータル件数#{total_c}件"
 
     # 2回目以降
     #
@@ -13,6 +15,7 @@ namespace :slide_share_api do
       # 負荷考慮
       sleep(0.5)
       search_slide_and_create!(page, args[:q])
+      puts "#{page}ページ目完了"
     end
 
   end
