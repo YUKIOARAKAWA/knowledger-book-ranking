@@ -1,31 +1,31 @@
 namespace :slide_share_api do
-  # bundle exec rake slide_share_api:slide_share
+  # bundle exec rake slide_share_api:slide_share[Rails]
   desc "slide_shareのAPIたたく"
-  task :slide_share => :environment do
+  task :slide_share, ['q'] => :environment do |task, args|
     # 1回目
     page = 1
-    get_c, total_c = search_slide_and_create!(page)
+    get_c, total_c = search_slide_and_create!(page, args[:q])
 
     # 2回目以降
     #
     page = (total_c / get_c.to_f).ceil
     2.upto(3) do |page|
-      search_slide_and_create!(page)
+      search_slide_and_create!(page, args[:q])
     end
 
   end
 end
 
 
-def search_slide_and_create!(page)
+def search_slide_and_create!(page, q)
   client = SlideShareApiClient.new
-  res_body = client.search(page: page)
+  res_body = client.search(page: page, q: q)
   doc = Nokogiri::XML(res_body)
   # ページのURL、view数、like数、作成日にちを取得
   # 全文検索するためにメタ情報も取得しておく
 
   # 検索ワード
-  q = doc.xpath("//Meta").xpath("//Query").text
+  query = doc.xpath("//Meta").xpath("//Query").text
   # 取得件数
   get_c = doc.xpath("//Meta").xpath("//NumResults").text.to_i
   # トータル件数
@@ -48,7 +48,7 @@ def search_slide_and_create!(page)
       num_view: num_view_list[i].text,
       num_favorite: num_favorite_list[i].text,
       slide_created_at: slide_created_at[i].text,
-      q: q
+      q: query
     )
     # urlでユニークか確認したほうが良さそう
     slide.save!
