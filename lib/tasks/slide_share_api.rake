@@ -10,6 +10,8 @@ namespace :slide_share_api do
     #
     page = (total_c / get_c.to_f).ceil
     2.upto(3) do |page|
+      # 負荷考慮
+      sleep(0.5)
       search_slide_and_create!(page, args[:q])
     end
 
@@ -30,7 +32,7 @@ def search_slide_and_create!(page, q)
   get_c = doc.xpath("//Meta").xpath("//NumResults").text.to_i
   # トータル件数
   total_c = doc.xpath("//Meta").xpath("//TotalResults").text.to_i
-
+  return if get_c == 0
 
   title_list = doc.xpath("//Title")
   url_list = doc.xpath("//URL")
