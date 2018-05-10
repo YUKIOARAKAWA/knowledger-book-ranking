@@ -16,7 +16,7 @@ ActiveRecord::Schema.define(version: 20180509130810) do
     t.string "asin"
     t.string "title"
     t.string "author"
-    t.string "url"
+    t.text "url"
     t.integer "point"
     t.string "q"
     t.datetime "created_at", null: false
