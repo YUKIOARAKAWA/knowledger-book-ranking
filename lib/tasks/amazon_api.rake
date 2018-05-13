@@ -1,5 +1,7 @@
 namespace :amazon_api do
-  # bundle exec rake amazon_api:item_search[Ruby]
+  # bundle exec rake amazon_api:item_search[Rails]
+  # Ruby　完了
+  # Rails　完了
   desc "amazonのAPIたたく"
   task :item_search, ['q'] => :environment do |task, args|
     # 初期設定　起動時に
@@ -13,9 +15,11 @@ namespace :amazon_api do
     q = args[:q]
     page = 1
     # 全ページとりたいので適当に99999指定
-    page.upto(99999) do |page|
+    page.upto(10) do |page|
+      sleep(20)
       res = item_search_and_create!(q, page)
       break if res == 'no result'
+      puts "#{page}ページ目完了！"
     end
 
   end

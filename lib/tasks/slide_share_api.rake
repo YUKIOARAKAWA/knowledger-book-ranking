@@ -1,5 +1,7 @@
 namespace :slide_share_api do
-  # bundle exec rake slide_share_api:slide_share[Rails]
+  # bundle exec rake slide_share_api:slide_share[Ruby]
+  # Rails　完了
+  # Ruby　完了
   desc "slide_shareのAPIたたく"
   task :slide_share, ['q'] => :environment do |task, args|
     # 1回目
@@ -11,9 +13,9 @@ namespace :slide_share_api do
     # 2回目以降
     #
     page = (total_c / get_c.to_f).ceil
-    2.upto(3) do |page|
+    2.upto(page) do |page|
       # 負荷考慮
-      sleep(0.5)
+      sleep(5)
       search_slide_and_create!(page, args[:q])
       puts "#{page}ページ目完了"
     end
